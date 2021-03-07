@@ -22,4 +22,11 @@ def add_one(hostname, command, jsondata):
     conn.commit()
     conn.close()
 
+def get_one(hostname, command):
+    conn = sqlite3.connect('test.db')
+    c = conn.cursor()
+    c.execute("SELECT jsondata FROM commands WHERE hostname = (?) AND command = (?)", (hostname,command))
+    return c.fetchone() or None
+
 add_one('test123', 'show ip mouth', '{some:stuff}')
+print(get_one('test123', 'show ip mouth'))
